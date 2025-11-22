@@ -1,0 +1,59 @@
+# Global config for training/evaluation/visualization
+seed: 42
+
+paths:
+  data_root: data
+  synthetic_root: data/synthetic
+  checkpoints: data/checkpoints
+  figures: data/figures
+
+# Data options
+data:
+  use_synthetic: true
+  # Spatio-temporal grid
+  height: 32
+  width: 64
+  time_steps: 8
+  channels:
+    # satellite-like channels (e.g., RGB + NIR) and oceanographic channels (currents, wind, sst)
+    count: 8
+  train_size: 256
+  val_size: 64
+  test_size: 64
+  noise_level: 0.05
+  drift_hotspot_count: 3
+
+# Model options
+model:
+  spatial_dim: 64           # embedding channels after CNN encoder
+  transformer:
+    d_model: 64
+    nhead: 4
+    num_layers: 2
+    dim_feedforward: 128
+    dropout: 0.1
+  loss: bce                 # bce | mse
+
+# Training options
+train:
+  epochs: 5
+  batch_size: 8
+  lr: 3e-4
+  weight_decay: 1e-4
+  device: auto              # auto | cpu | cuda
+  num_workers: 0            # set >0 for speed when using real data
+
+# Evaluation options
+eval:
+  auprc_points: 50
+  threshold: 0.5
+
+# Forecasting options (future use for multi-horizon outputs)
+forecast:
+  horizons: [1]             # days ahead
+
+# Visualization options
+viz:
+  frames: 8
+  cmap: viridis
+  dpi: 120
